@@ -24,3 +24,37 @@ spec:
         - containerPort: 8000
         resources: {}
 status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: checkurl
+  name: checkurl
+spec:
+  type: ClusterIP
+  ports:
+  - name: http
+    port: 8000
+    protocol: TCP
+    targetPort: 8000
+  selector:
+    app: checkurl
+status:
+  loadBalancer: {}
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: checkurl
+  labels:
+    release: prometheus
+    app: checkurl
+spec:
+  selector:
+    matchLabels:
+      app: checkurl
+  endpoints:
+  - port: http
+    interval: 15s
