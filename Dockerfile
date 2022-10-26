@@ -1,4 +1,4 @@
-FROM python
+FROM python:alpine
 WORKDIR /app
 COPY query.py /app
 RUN cd /app && pip install flask requests prometheus_client
